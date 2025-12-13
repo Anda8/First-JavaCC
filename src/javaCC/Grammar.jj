@@ -1,0 +1,54 @@
+options { STATIC = false; }
+
+PARSER_BEGIN(Calculator)
+import java.io.*;
+
+public class Calculator {
+    public static void main(String[] args) throws Exception {
+        System.out.println("Hello JavaCC");
+    }
+}
+PARSER_END(Calculator)
+
+SKIP : {
+      " " | "\t" | "\n" | "\r"           // whitespace
+}
+
+
+TOKEN : {
+    // Keywords
+      < CLASS: "class" >
+    | < INT: "int" >
+    | < IF: "if" >
+    | < ELSE: "else" >
+    | < WHILE: "while" >
+    | < FOR: "for" >
+    | < RETURN: "return" >
+
+    // Identifiers and literals
+    | < IDENTIFIER: (["a"-"z","A"-"Z"])(["a"-"z","A"-"Z","0"-"9"])* >
+    | < NUMBER: (["0"-"9"])+ >
+    | < STRING_LITERAL: "\"" (~["\""])* "\"" >
+    | < CHAR_LITERAL: "'" (~["'"])* "'" >
+
+    // Operators
+    | < ASSIGN: "=" >
+    | < PLUS: "+" >
+    | < MINUS: "-" >
+    | < MUL: "*" >
+    | < DIV: "/" >
+    | < EQ: "==" >
+    | < NEQ: "!=" >
+    | < LT: "<" >
+    | < LTE: "<=" >
+    | < GT: ">" >
+    | < GTE: ">=" >
+
+    // Delimiters
+    | < SEMICOLON: ";" >
+    | < LBRACE: "{" >
+    | < RBRACE: "}" >
+    | < LPAREN: "(" >
+    | < RPAREN: ")" >
+    | < COMMA: "," >
+}
