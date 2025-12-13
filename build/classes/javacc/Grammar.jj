@@ -11,7 +11,9 @@ public class Calculator {
 PARSER_END(Calculator)
 
 SKIP : {
-      " " | "\t" | "\n" | "\r"           // whitespace
+      " " | "\t" | "\n" | "\r"                   // whitespace
+    | "//" (~["\n","\r"])*                       // single-line comment
+    | | "/*" ( ~["*"] | "*" ~["/"] )* "*/"           // multi-line comment
 }
 
 
