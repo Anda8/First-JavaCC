@@ -23,47 +23,51 @@ public interface CalculatorConstants {
   /** RegularExpression Id. */
   int RETURN = 11;
   /** RegularExpression Id. */
-  int IDENTIFIER = 12;
+  int STRING = 12;
   /** RegularExpression Id. */
-  int NUMBER = 13;
+  int CHAR = 13;
   /** RegularExpression Id. */
-  int STRING_LITERAL = 14;
+  int IDENTIFIER = 14;
   /** RegularExpression Id. */
-  int CHAR_LITERAL = 15;
+  int NUMBER = 15;
   /** RegularExpression Id. */
-  int ASSIGN = 16;
+  int STRING_LITERAL = 16;
   /** RegularExpression Id. */
-  int PLUS = 17;
+  int CHAR_LITERAL = 17;
   /** RegularExpression Id. */
-  int MINUS = 18;
+  int EQ = 18;
   /** RegularExpression Id. */
-  int MUL = 19;
+  int NEQ = 19;
   /** RegularExpression Id. */
-  int DIV = 20;
+  int LTE = 20;
   /** RegularExpression Id. */
-  int EQ = 21;
+  int GTE = 21;
   /** RegularExpression Id. */
-  int NEQ = 22;
+  int ASSIGN = 22;
   /** RegularExpression Id. */
   int LT = 23;
   /** RegularExpression Id. */
-  int LTE = 24;
+  int GT = 24;
   /** RegularExpression Id. */
-  int GT = 25;
+  int PLUS = 25;
   /** RegularExpression Id. */
-  int GTE = 26;
+  int MINUS = 26;
   /** RegularExpression Id. */
-  int SEMICOLON = 27;
+  int MUL = 27;
   /** RegularExpression Id. */
-  int LBRACE = 28;
+  int DIV = 28;
   /** RegularExpression Id. */
-  int RBRACE = 29;
+  int SEMICOLON = 29;
   /** RegularExpression Id. */
-  int LPAREN = 30;
+  int LBRACE = 30;
   /** RegularExpression Id. */
-  int RPAREN = 31;
+  int RBRACE = 31;
   /** RegularExpression Id. */
-  int COMMA = 32;
+  int LPAREN = 32;
+  /** RegularExpression Id. */
+  int RPAREN = 33;
+  /** RegularExpression Id. */
+  int COMMA = 34;
 
   /** Lexical state. */
   int DEFAULT = 0;
@@ -82,21 +86,23 @@ public interface CalculatorConstants {
     "\"while\"",
     "\"for\"",
     "\"return\"",
+    "\"String\"",
+    "\"char\"",
     "<IDENTIFIER>",
     "<NUMBER>",
     "<STRING_LITERAL>",
     "<CHAR_LITERAL>",
+    "\"==\"",
+    "\"!=\"",
+    "\"<=\"",
+    "\">=\"",
     "\"=\"",
+    "\"<\"",
+    "\">\"",
     "\"+\"",
     "\"-\"",
     "\"*\"",
     "\"/\"",
-    "\"==\"",
-    "\"!=\"",
-    "\"<\"",
-    "\"<=\"",
-    "\">\"",
-    "\">=\"",
     "\";\"",
     "\"{\"",
     "\"}\"",

@@ -10,15 +10,15 @@ public class Calculator {
 }
 PARSER_END(Calculator)
 
+/* ================== SKIP ================== */
 SKIP : {
-      " " | "\t" | "\n" | "\r"                   // whitespace
-    | "//" (~["\n","\r"])*                       // single-line comment
-    | | "/*" ( ~["*"] | "*" ~["/"] )* "*/"           // multi-line comment
+    " " | "\t" | "\n" | "\r"
 }
 
-
+/* ================== TOKENS ================== */
 TOKEN : {
-    // Keywords
+
+    /* Keywords */
       < CLASS: "class" >
     | < INT: "int" >
     | < IF: "if" >
@@ -26,31 +26,133 @@ TOKEN : {
     | < WHILE: "while" >
     | < FOR: "for" >
     | < RETURN: "return" >
+    | < STRING: "String" >
+    | < CHAR: "char" >
 
-    // Identifiers and literals
+    /* Identifiers & literals */
     | < IDENTIFIER: (["a"-"z","A"-"Z"])(["a"-"z","A"-"Z","0"-"9"])* >
     | < NUMBER: (["0"-"9"])+ >
     | < STRING_LITERAL: "\"" (~["\""])* "\"" >
     | < CHAR_LITERAL: "'" (~["'"])* "'" >
 
-    // Operators
+    /* Operators (IMPORTANT ORDER) */
+    | < EQ: "==" >
+    | < NEQ: "!=" >
+    | < LTE: "<=" >
+    | < GTE: ">=" >
     | < ASSIGN: "=" >
+    | < LT: "<" >
+    | < GT: ">" >
     | < PLUS: "+" >
     | < MINUS: "-" >
     | < MUL: "*" >
     | < DIV: "/" >
-    | < EQ: "==" >
-    | < NEQ: "!=" >
-    | < LT: "<" >
-    | < LTE: "<=" >
-    | < GT: ">" >
-    | < GTE: ">=" >
 
-    // Delimiters
+    /* Delimiters */
     | < SEMICOLON: ";" >
     | < LBRACE: "{" >
     | < RBRACE: "}" >
     | < LPAREN: "(" >
     | < RPAREN: ")" >
     | < COMMA: "," >
+}
+// Grammar rules
+void Program() :
+{}
+{
+    ( Statement() )* <EOF>
+}
+
+void Statement() :
+{}
+{
+      VarDeclaration()
+    | Assignment()
+    | IfStatement()
+    | WhileStatement()
+    | ForStatement()
+    | ReturnStatement()
+    | Block()
+}
+
+void VarDeclaration() :
+{}
+{
+    <INT> <IDENTIFIER> ( <ASSIGN> Expression() )? <SEMICOLON>
+}
+
+void Assignment() :
+{}
+{
+    <IDENTIFIER> <ASSIGN> Expression() <SEMICOLON>
+}
+
+void Expression() :
+{}
+{
+    RelExpression()
+}
+
+void RelExpression() :
+{}
+{
+    AddExpression() ( ( <LT> | <GT> | <LE> | <GE> | <EQ> | <NEQ> ) AddExpression() )?
+}
+
+void AddExpression() :
+{}
+{
+    Term() ( ( <PLUS> | <MINUS> ) Term() )*
+}
+
+void Term() :
+{}
+{
+    Factor() ( ( <MUL> | <DIV> ) Factor() )*
+}
+
+void Factor() :
+{}
+{
+      <NUMBER>
+    | <IDENTIFIER>
+    | <LPAREN> Expression() <RPAREN>
+}
+
+void IfStatement() :
+{}
+{
+    <IF> <LPAREN> Expression() <RPAREN>
+    Block()
+    ( <ELSE> Block() )?
+}
+
+void WhileStatement() :
+{}
+{
+    <WHILE> <LPAREN> Expression() <RPAREN>
+    Block()
+}
+
+void ForStatement() :
+{}
+{
+    <FOR> <LPAREN>
+        ( VarDeclaration() | Assignment() | <SEMICOLON> )
+        ( Expression() )? <SEMICOLON>
+        ( Assignment() )?
+    <RPAREN>
+    Block()
+}
+
+void ReturnStatement() :
+{}
+{
+    <RETURN> ( Expression() )? <SEMICOLON>
+}
+
+void Block() :
+{}
+{
+    <LBRACE> ( Statement() )* <RBRACE>
 }

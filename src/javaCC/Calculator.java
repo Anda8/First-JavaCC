@@ -7,6 +7,288 @@ public class Calculator implements CalculatorConstants {
         System.out.println("Hello JavaCC");
     }
 
+  final public void Program() throws ParseException {
+    label_1:
+    while (true) {
+      switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
+      case INT:
+      case IF:
+      case WHILE:
+      case FOR:
+      case RETURN:
+      case IDENTIFIER:
+      case LBRACE:{
+        ;
+        break;
+        }
+      default:
+        jj_la1[0] = jj_gen;
+        break label_1;
+      }
+      Statement();
+    }
+    jj_consume_token(0);
+  }
+
+  final public void Statement() throws ParseException {
+    switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
+    case INT:{
+      VarDeclaration();
+      break;
+      }
+    case IDENTIFIER:{
+      Assignment();
+      break;
+      }
+    case IF:{
+      IfStatement();
+      break;
+      }
+    case WHILE:{
+      WhileStatement();
+      break;
+      }
+    case FOR:{
+      ForStatement();
+      break;
+      }
+    case RETURN:{
+      ReturnStatement();
+      break;
+      }
+    case LBRACE:{
+      Block();
+      break;
+      }
+    default:
+      jj_la1[1] = jj_gen;
+      jj_consume_token(-1);
+      throw new ParseException();
+    }
+  }
+
+  final public void VarDeclaration() throws ParseException {
+    jj_consume_token(INT);
+    jj_consume_token(IDENTIFIER);
+    switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
+    case ASSIGN:{
+      jj_consume_token(ASSIGN);
+      Expression();
+      break;
+      }
+    default:
+      jj_la1[2] = jj_gen;
+      ;
+    }
+    jj_consume_token(SEMICOLON);
+  }
+
+  final public void Assignment() throws ParseException {
+    jj_consume_token(IDENTIFIER);
+    jj_consume_token(ASSIGN);
+    Expression();
+    jj_consume_token(SEMICOLON);
+  }
+
+  final public void Expression() throws ParseException {
+    Term();
+    label_2:
+    while (true) {
+      switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
+      case PLUS:
+      case MINUS:{
+        ;
+        break;
+        }
+      default:
+        jj_la1[3] = jj_gen;
+        break label_2;
+      }
+      switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
+      case PLUS:{
+        jj_consume_token(PLUS);
+        break;
+        }
+      case MINUS:{
+        jj_consume_token(MINUS);
+        break;
+        }
+      default:
+        jj_la1[4] = jj_gen;
+        jj_consume_token(-1);
+        throw new ParseException();
+      }
+      Term();
+    }
+  }
+
+  final public void Term() throws ParseException {
+    Factor();
+    label_3:
+    while (true) {
+      switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
+      case MUL:
+      case DIV:{
+        ;
+        break;
+        }
+      default:
+        jj_la1[5] = jj_gen;
+        break label_3;
+      }
+      switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
+      case MUL:{
+        jj_consume_token(MUL);
+        break;
+        }
+      case DIV:{
+        jj_consume_token(DIV);
+        break;
+        }
+      default:
+        jj_la1[6] = jj_gen;
+        jj_consume_token(-1);
+        throw new ParseException();
+      }
+      Factor();
+    }
+  }
+
+  final public void Factor() throws ParseException {
+    switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
+    case NUMBER:{
+      jj_consume_token(NUMBER);
+      break;
+      }
+    case IDENTIFIER:{
+      jj_consume_token(IDENTIFIER);
+      break;
+      }
+    case LPAREN:{
+      jj_consume_token(LPAREN);
+      Expression();
+      jj_consume_token(RPAREN);
+      break;
+      }
+    default:
+      jj_la1[7] = jj_gen;
+      jj_consume_token(-1);
+      throw new ParseException();
+    }
+  }
+
+  final public void IfStatement() throws ParseException {
+    jj_consume_token(IF);
+    jj_consume_token(LPAREN);
+    Expression();
+    jj_consume_token(RPAREN);
+    Block();
+    switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
+    case ELSE:{
+      jj_consume_token(ELSE);
+      Block();
+      break;
+      }
+    default:
+      jj_la1[8] = jj_gen;
+      ;
+    }
+  }
+
+  final public void WhileStatement() throws ParseException {
+    jj_consume_token(WHILE);
+    jj_consume_token(LPAREN);
+    Expression();
+    jj_consume_token(RPAREN);
+    Block();
+  }
+
+  final public void ForStatement() throws ParseException {
+    jj_consume_token(FOR);
+    jj_consume_token(LPAREN);
+    switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
+    case INT:{
+      VarDeclaration();
+      break;
+      }
+    case IDENTIFIER:{
+      Assignment();
+      break;
+      }
+    case SEMICOLON:{
+      jj_consume_token(SEMICOLON);
+      break;
+      }
+    default:
+      jj_la1[9] = jj_gen;
+      jj_consume_token(-1);
+      throw new ParseException();
+    }
+    switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
+    case IDENTIFIER:
+    case NUMBER:
+    case LPAREN:{
+      Expression();
+      break;
+      }
+    default:
+      jj_la1[10] = jj_gen;
+      ;
+    }
+    jj_consume_token(SEMICOLON);
+    switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
+    case IDENTIFIER:{
+      Assignment();
+      break;
+      }
+    default:
+      jj_la1[11] = jj_gen;
+      ;
+    }
+    jj_consume_token(RPAREN);
+    Block();
+  }
+
+  final public void ReturnStatement() throws ParseException {
+    jj_consume_token(RETURN);
+    switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
+    case IDENTIFIER:
+    case NUMBER:
+    case LPAREN:{
+      Expression();
+      break;
+      }
+    default:
+      jj_la1[12] = jj_gen;
+      ;
+    }
+    jj_consume_token(SEMICOLON);
+  }
+
+  final public void Block() throws ParseException {
+    jj_consume_token(LBRACE);
+    label_4:
+    while (true) {
+      switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
+      case INT:
+      case IF:
+      case WHILE:
+      case FOR:
+      case RETURN:
+      case IDENTIFIER:
+      case LBRACE:{
+        ;
+        break;
+        }
+      default:
+        jj_la1[13] = jj_gen;
+        break label_4;
+      }
+      Statement();
+    }
+    jj_consume_token(RBRACE);
+  }
+
   /** Generated Token Manager. */
   public CalculatorTokenManager token_source;
   SimpleCharStream jj_input_stream;
@@ -16,7 +298,7 @@ public class Calculator implements CalculatorConstants {
   public Token jj_nt;
   private int jj_ntk;
   private int jj_gen;
-  final private int[] jj_la1 = new int[0];
+  final private int[] jj_la1 = new int[14];
   static private int[] jj_la1_0;
   static private int[] jj_la1_1;
   static {
@@ -24,10 +306,10 @@ public class Calculator implements CalculatorConstants {
       jj_la1_init_1();
    }
    private static void jj_la1_init_0() {
-      jj_la1_0 = new int[] {};
+      jj_la1_0 = new int[] {0x40004ec0,0x40004ec0,0x400000,0x6000000,0x6000000,0x18000000,0x18000000,0xc000,0x100,0x20004040,0xc000,0x4000,0xc000,0x40004ec0,};
    }
    private static void jj_la1_init_1() {
-      jj_la1_1 = new int[] {};
+      jj_la1_1 = new int[] {0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x1,0x0,0x0,0x1,0x0,0x1,0x0,};
    }
 
   /** Constructor with InputStream. */
@@ -41,6 +323,7 @@ public class Calculator implements CalculatorConstants {
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
+    for (int i = 0; i < 14; i++) jj_la1[i] = -1;
   }
 
   /** Reinitialise. */
@@ -54,7 +337,7 @@ public class Calculator implements CalculatorConstants {
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 0; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 14; i++) jj_la1[i] = -1;
   }
 
   /** Constructor. */
@@ -64,6 +347,7 @@ public class Calculator implements CalculatorConstants {
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
+    for (int i = 0; i < 14; i++) jj_la1[i] = -1;
   }
 
   /** Reinitialise. */
@@ -73,6 +357,7 @@ public class Calculator implements CalculatorConstants {
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
+    for (int i = 0; i < 14; i++) jj_la1[i] = -1;
   }
 
   /** Constructor with generated Token Manager. */
@@ -81,6 +366,7 @@ public class Calculator implements CalculatorConstants {
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
+    for (int i = 0; i < 14; i++) jj_la1[i] = -1;
   }
 
   /** Reinitialise. */
@@ -89,6 +375,7 @@ public class Calculator implements CalculatorConstants {
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
+    for (int i = 0; i < 14; i++) jj_la1[i] = -1;
   }
 
   private Token jj_consume_token(int kind) throws ParseException {
@@ -139,12 +426,12 @@ public class Calculator implements CalculatorConstants {
   /** Generate ParseException. */
   public ParseException generateParseException() {
     jj_expentries.clear();
-    boolean[] la1tokens = new boolean[33];
+    boolean[] la1tokens = new boolean[35];
     if (jj_kind >= 0) {
       la1tokens[jj_kind] = true;
       jj_kind = -1;
     }
-    for (int i = 0; i < 0; i++) {
+    for (int i = 0; i < 14; i++) {
       if (jj_la1[i] == jj_gen) {
         for (int j = 0; j < 32; j++) {
           if ((jj_la1_0[i] & (1<<j)) != 0) {
@@ -156,7 +443,7 @@ public class Calculator implements CalculatorConstants {
         }
       }
     }
-    for (int i = 0; i < 33; i++) {
+    for (int i = 0; i < 35; i++) {
       if (la1tokens[i]) {
         jj_expentry = new int[1];
         jj_expentry[0] = i;
